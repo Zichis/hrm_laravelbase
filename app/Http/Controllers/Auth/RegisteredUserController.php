@@ -37,11 +37,12 @@ class RegisteredUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|confirmed|min:8',
-            'company_name' => 'required|string'
+            'company_name' => 'required|regex:/^[\pL\s]+$/u'
         ]);
 
         $company = Company::create([
-            'name' => $request->company_name
+            'name' => $request->company_name,
+            'identifier' => str_replace(' ','-',$request->company_name)
         ]);
 
         Auth::login($user = User::create([

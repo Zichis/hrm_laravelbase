@@ -15,7 +15,7 @@ class Company extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
+        'name','identifier'
     ];
 
     public function staff()
