@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <p>You're logged in!</p>
-                    <a href="{{ route('company.staff', auth()->user()->company->identifier) }}">Visit staff page</a>
+                    <a href="{{ route('staff.index', auth()->user()->company->identifier) }}">Visit staff page</a>
                 </div>
             </div>
         </div>
