@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\CompanyDashboardController;
+use App\Http\Controllers\CompanyStaffController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,5 +23,8 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::get('/{company}/dashboard', [CompanyDashboardController::class, 'index'])->name('company.dashboard');
+Route::get('/{company}/staff', [CompanyStaffController::class, 'index'])->name('company.staff');
 
 require __DIR__.'/auth.php';
