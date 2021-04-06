@@ -24,7 +24,11 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/{company}/dashboard', [CompanyDashboardController::class, 'index'])->name('company.dashboard');
-Route::get('/{company}/staff', [CompanyStaffController::class, 'index'])->name('company.staff');
+Route::get('/{company}/dashboard', [CompanyDashboardController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('company.dashboard');
+
+Route::resource('/{company}/staff', CompanyStaffController::class)
+    ->middleware(['auth']);
 
 require __DIR__.'/auth.php';
