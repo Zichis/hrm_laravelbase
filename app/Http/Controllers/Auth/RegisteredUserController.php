@@ -54,6 +54,7 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        return redirect(RouteServiceProvider::HOME);
+        // return redirect(RouteServiceProvider::HOME);
+        return redirect("/" . $user->company->identifier . "/dashboard");
     }
 }
