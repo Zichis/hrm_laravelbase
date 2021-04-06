@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ auth()->user()->company->name }} {{ __('Staff') }}
+            {{ $company->name }} {{ __('Staff') }}
         </h2>
     </x-slot>
 
@@ -9,8 +9,11 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <p>You're logged in!</p>
-                    <a href="{{ route('staff.index', auth()->user()->company->identifier) }}">Visit staff page</a>
+                    <h3>Staff</h3>
+                    @foreach ($company->staff as $staff)
+                        <p>{{ $staff->name }}</p>
+                    @endforeach
+                    <p>Add staff <a class="font-bold text-blue-500 hover:text-blue-700" href="{{ route('staff.create', $company->identifier) }}">here</a></p>
                 </div>
             </div>
         </div>
