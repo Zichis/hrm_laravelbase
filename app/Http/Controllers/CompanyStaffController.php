@@ -4,16 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\User;
+use App\Services\CompanyService;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class CompanyStaffController extends Controller
 {
+    private $companyService;
+
+    public function __construct(CompanyService $companyService)
+    {
+        $this->companyService = $companyService;
+    }
+
     public function index(string $company)
     {
         $company = Company::where('identifier', $company)->firstOrFail();
-        if (Auth::user()->company != $company) {
+        if (!$this->companyService->isCompanyStaff($company)) {
             abort('404');
         }
 
@@ -22,11 +30,19 @@ class CompanyStaffController extends Controller
 
     public function create()
     {
+        $company = Company::where('identifier', $company)->firstOrFail();
+        if (!$this->companyService->isCompanyStaff($company)) {
+            abort('404');
+        }
         return view('company.staff.create');
     }
 
     public function store(Request $request)
     {
+        $company = Company::where('identifier', $company)->firstOrFail();
+        if (!$this->companyService->isCompanyStaff($company)) {
+            abort('404');
+        }
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
