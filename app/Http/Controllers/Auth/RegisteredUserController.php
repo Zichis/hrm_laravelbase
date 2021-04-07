@@ -37,7 +37,7 @@ class RegisteredUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|confirmed|min:8',
-            'company_name' => 'required|regex:/^[\pL\s]+$/u'
+            'company_name' => 'required|regex:/^[\pL\s]+$/u|unique:companies,name'
         ]);
 
         $company = Company::create([
