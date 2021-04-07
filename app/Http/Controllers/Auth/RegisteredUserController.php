@@ -35,6 +35,8 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|confirmed|min:8',
             'company_name' => 'required|regex:/^[\pL\s]+$/u|unique:companies,name'
@@ -51,6 +53,11 @@ class RegisteredUserController extends Controller
             'company_id' => $company->id,
             'password' => Hash::make($request->password),
         ]));
+
+        $user->personal()->create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+        ]);
 
         event(new Registered($user));
 
