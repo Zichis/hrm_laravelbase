@@ -44,7 +44,6 @@ class CompanyStaffController extends Controller
             abort('404');
         }
         $request->validate([
-            'name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -52,7 +51,6 @@ class CompanyStaffController extends Controller
         ]);
 
         $user = User::create([
-            'name' => $request->name,
             'email' => $request->email,
             'company_id' => auth()->user()->company->id,
             'password' => Hash::make($request->password),
@@ -100,14 +98,12 @@ class CompanyStaffController extends Controller
         }
 
         $request->validate([
-            'name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$staff->id
         ]);
 
         $staff->update([
-            'name' => $request->name,
             'email' => $request->email,
         ]);
 
