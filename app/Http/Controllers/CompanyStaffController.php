@@ -121,4 +121,17 @@ class CompanyStaffController extends Controller
             'staff' => $staff->id
         ]);
     }
+
+    public function destroy(string $company, User $staff)
+    {
+        $company = Company::where('identifier', $company)->firstOrFail();
+        if (!$this->companyService->isCompanyStaff($company, $staff)) {
+            abort('404');
+        }
+
+        $staff->personal->delete();
+        $staff->delete();
+
+        return redirect()->route('staff.index', $company->identifier);
+    }
 }
