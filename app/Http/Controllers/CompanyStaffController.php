@@ -78,4 +78,47 @@ class CompanyStaffController extends Controller
             'company' => $company
         ]);
     }
+
+    public function edit(string $company, User $staff)
+    {
+        $company = Company::where('identifier', $company)->firstOrFail();
+        if (!$this->companyService->isCompanyStaff($company, $staff)) {
+            abort('404');
+        }
+
+        return view('company.staff.edit', [
+            'staff' => $staff,
+            'company' => $company
+        ]);
+    }
+
+    public function update(Request $request, string $company, User $staff)
+    {
+        $company = Company::where('identifier', $company)->firstOrFail();
+        if (!$this->companyService->isCompanyStaff($company, $staff)) {
+            abort('404');
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,'.$staff->id
+        ]);
+
+        $staff->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+
+        $staff->personal->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+        ]);
+
+        return redirect()->route('staff.show', [
+            'company' => $company->identifier,
+            'staff' => $staff->id
+        ]);
+    }
 }
