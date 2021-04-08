@@ -28,7 +28,7 @@ class CompanyStaffController extends Controller
         return view('company.staff.index', ['company' => $company]);
     }
 
-    public function create()
+    public function create(string $company)
     {
         $company = Company::where('identifier', $company)->firstOrFail();
         if (!$this->companyService->isCompanyStaff($company)) {
@@ -37,7 +37,7 @@ class CompanyStaffController extends Controller
         return view('company.staff.create');
     }
 
-    public function store(Request $request)
+    public function store(Request $request, string $company)
     {
         $company = Company::where('identifier', $company)->firstOrFail();
         if (!$this->companyService->isCompanyStaff($company)) {
@@ -45,15 +45,22 @@ class CompanyStaffController extends Controller
         }
         $request->validate([
             'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|confirmed|min:8',
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'company_id' => auth()->user()->company->id,
             'password' => Hash::make($request->password),
+        ]);
+
+        $user->personal()->create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
         ]);
 
         return redirect()->route('staff.index', auth()->user()->company->identifier);
