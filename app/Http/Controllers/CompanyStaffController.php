@@ -66,16 +66,15 @@ class CompanyStaffController extends Controller
         return redirect()->route('staff.index', auth()->user()->company->identifier);
     }
 
-    public function show(string $company, int $id)
+    public function show(string $company, User $staff)
     {
-        $user = User::findOrFail($id);
         $company = Company::where('identifier', $company)->firstOrFail();
-        if (!$this->companyService->isCompanyStaff($company, $user)) {
+        if (!$this->companyService->isCompanyStaff($company, $staff)) {
             abort('404');
         }
 
         return view('company.staff.show', [
-            'user' => $user,
+            'staff' => $staff,
             'company' => $company
         ]);
     }
