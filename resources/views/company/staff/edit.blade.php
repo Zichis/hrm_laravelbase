@@ -15,13 +15,6 @@
                     <form method="POST" action="{{ route('staff.update', ['company' => $company->identifier, 'staff' => $staff->id]) }}">
                         @csrf
                         @method('PUT')
-                        <!-- Name -->
-                        <div class="mt-4">
-                            <x-label for="name" :value="__('Name')" />
-
-                            <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="$staff->name" required />
-                        </div>
-
                         <!-- First Name -->
                         <div class="mt-4">
                             <x-label for="first_name" :value="__('First Name')" />

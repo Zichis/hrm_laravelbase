@@ -11,13 +11,6 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <form method="POST" action="{{ route('staff.store', auth()->user()->company->identifier) }}">
                         @csrf
-                        <!-- Name -->
-                        <div class="mt-4">
-                            <x-label for="name" :value="__('Name')" />
-
-                            <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required />
-                        </div>
-
                         <!-- First Name -->
                         <div class="mt-4">
                             <x-label for="first_name" :value="__('First Name')" />
