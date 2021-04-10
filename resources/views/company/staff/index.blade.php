@@ -1,18 +1,10 @@
 <x-dashboard-layout :company=$company>
-    <x-slot name="header">
-        <div class="px-10 py-5">
-            <p class="text-sm text-gray-500">{{ date('d F, Y') }}</p>
-            <h1 class="text-3xl">{{ auth()->user()->personal->first_name }} {{ auth()->user()->personal->last_name }}</h1>
-            <p class="text-sm text-green-600">{{ auth()->user()->company->name }}</p>
-        </div>
-    </x-slot>
-
     <div class="px-10 py-5">
         <div class="p-5 bg-white shadow-lg rounded border border-gray-300">
             <div class="flex justify-between items-center mb-3">
                 <h2 class="text-2xl font-bold text-gray-700">Staff</h2>
                 <a href="{{ route('staff.create', $company->identifier) }}" class=" bg-gray-800 text-gray-100 px-3 py-1 rounded shadow-md font-semibold hover:bg-gray-700">
-                    <i class="fas fa-plus"></i> Add
+                    <i class="fas fa-user-plus"></i> Add
                 </a>
             </div>
             <table class="table-auto w-full text-left whitespace-no-wrap">
