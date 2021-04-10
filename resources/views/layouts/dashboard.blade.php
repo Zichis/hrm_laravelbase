@@ -19,18 +19,10 @@
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
             <div class="flex">
-                <div class="bg-gray-800 h-screen w-14 fixed text-center py-5">
-                    <div class="my-20">
-                        <a href="{{ route('company.dashboard', ['company'=> $company->identifier]) }}" class="p-2 block my-5 text-gray-200 hover:text-gray-400 focus:outline-none">
-                            <i class="fas fa-th-large"></i>
-                        </a>
-                        <a href="{{ route('staff.index', ['company'=> $company->identifier]) }}" class="p-2 block my-5 text-gray-200 hover:text-gray-400 focus:outline-none">
-                            <i class="fas fa-users"></i>
-                        </a>
-                    </div>
-                </div>
+                <!-- Sidemenu -->
+                @include('layouts.sidemenu')
                 <div class="bg-gray-200 pl-14 h-screen overflow-y-scroll w-full">
-                    <div>{{ $header }}</div>
+                    @include('layouts.dashboard-header')
                     <div>{{ $slot }}</div>
                 </div>
             </div>
