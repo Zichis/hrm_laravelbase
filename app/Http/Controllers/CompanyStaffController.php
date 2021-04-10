@@ -34,7 +34,9 @@ class CompanyStaffController extends Controller
         if (!$this->companyService->isCompanyStaff($company)) {
             abort('404');
         }
-        return view('company.staff.create');
+        return view('company.staff.create', [
+            'company' => $company
+        ]);
     }
 
     public function store(Request $request, string $company)
