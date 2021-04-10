@@ -1,21 +1,38 @@
-<x-app-layout>
+<x-dashboard-layout :company=$company>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ $company->name }} {{ __('Staff') }}
-        </h2>
+        <div class="px-10 py-5">
+            <p class="text-sm text-gray-500">{{ date('d F, Y') }}</p>
+            <h1 class="text-3xl">{{ auth()->user()->personal->first_name }} {{ auth()->user()->personal->last_name }}</h1>
+            <p class="text-sm text-green-600">{{ auth()->user()->company->name }}</p>
+        </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    <h3>Staff</h3>
-                    @foreach ($company->staff as $staff)
-                        <p><a class="font-bold text-red-500 hover:text-red-700" href="{{ route('staff.show', ['company' => $company->identifier, 'staff' => $staff->id]) }}">{{ $staff->personal->first_name }}</a></p>
-                    @endforeach
-                    <p>Add staff <a class="font-bold text-blue-500 hover:text-blue-700" href="{{ route('staff.create', $company->identifier) }}">here</a></p>
-                </div>
+    <div class="px-10 py-5">
+        <div class="p-5 bg-white shadow-lg rounded border border-gray-300">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="text-2xl font-bold text-gray-700">Staff</h2>
+                <a href="{{ route('staff.create', $company->identifier) }}" class=" bg-gray-800 text-gray-100 px-3 py-1 rounded shadow-md font-semibold hover:bg-gray-700">
+                    <i class="fas fa-plus"></i> Add
+                </a>
             </div>
+            <table class="table-auto w-full text-left whitespace-no-wrap">
+                <thead class="p-5 shadow-lg bg-green-600 text-white">
+                    <tr>
+                        <th class="p-2 rounded-tl rounded-bl">Name</th>
+                        <th class="p-2">E-mail</th>
+                        <th class="p-2 rounded-tr rounded-br">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($company->staff as $staff)
+                        <tr class="@if($loop->iteration % 2 == 0) bg-gray-100 @endif @if(auth()->user()->id == $staff->id) font-bold @endif">
+                            <td class="p-2">{{ $staff->personal->first_name }} {{ $staff->personal->last_name }}</td>
+                            <td class="p-2">{{ $staff->email }}</td>
+                            <td class="p-2"></td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
-</x-app-layout>
+</x-dashboard-layout>
